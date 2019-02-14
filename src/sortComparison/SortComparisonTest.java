@@ -84,6 +84,7 @@ public class SortComparisonTest
 {
     //~ Constructor ........................................................
     @Test
+    //test constructor
     public void testConstructor()
     {
         new SortComparison();
