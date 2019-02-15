@@ -99,6 +99,7 @@ public class SortComparisonTest
     @Test
     public void testEmpty()
     {
+    	//test empty
     	String expectedResult="";
     	double[] a = {};
     	
