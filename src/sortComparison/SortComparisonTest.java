@@ -122,6 +122,7 @@ public class SortComparisonTest
     @Test
     public void testInsertionSort()
     {
+    	//test insertion
     	double[] a = {62, 83, 18, 53};
     	double[] expected = {18, 53, 62, 83};
     	double[] actual = SortComparison.insertionSort(a);
