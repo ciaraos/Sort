@@ -1,11 +1,17 @@
 package sortComparison;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 //-------------------------------------------------------------------------
 
 /**
  * This class contains static methods that implementing sorting of an array of
  * numbers using different sort algorithms.
  *
- * @author
+ * @author Ciara O'Sullivan
  * @version HT 2019
  */
 
@@ -21,13 +27,13 @@ class SortComparison {
 	 *
 	 */
 	static double[] insertionSort(double a[]) {
-		double temp;
+		double tmp;
 		for (int i = 1; i < a.length; i++) {
 			for (int j = i; j > 0; j--) {
 				if (a[j] < a[j - 1]) {
-					temp = a[j];
+					tmp = a[j];
 					a[j] = a[j - 1];
-					a[j - 1] = temp;
+					a[j - 1] = tmp;
 				}
 				//System.out.print(a[j] + " ");
 			}
@@ -52,38 +58,38 @@ class SortComparison {
 
 	}// end quicksort
 
-	public static void recursiveQuick(double[] a, int lo, int hi) {
-		if (hi <= lo) {
+	public static void recursiveQuick(double[] a, int low, int high) {
+		if (high <= low) {
 			return;
 		}
-		int pivotPos = partition(a, lo, hi);
-		recursiveQuick(a, lo, pivotPos - 1);
-		recursiveQuick(a, pivotPos + 1, hi);
+		int pivot = partition(a, low, high);
+		recursiveQuick(a, low, pivot - 1);
+		recursiveQuick(a, pivot + 1, high);
 	}
 
-	private static int partition(double[] numbers, int lo, int hi) {
-		int i = lo;
-		int j = hi + 1;
-		double pivot = numbers[lo];
+	private static int partition(double[] a, int low, int high) {
+		int i = low;
+		int j = high + 1;
+		double pivot = a[low];
 		while (true) {
-			while (numbers[++i] < pivot) {
-				if (i == hi) {
+			while (a[++i] < pivot) {
+				if (i == high) {
 					break;
 				}
 			}
-			while (pivot < numbers[--j]) {
-				if (j == lo) {
+			while (pivot < a[--j]) {
+				if (j == low) {
 					break;
 				}
 			}
 			if (i >= j)
 				break;
-			double temp = numbers[i];
-			numbers[i] = numbers[j];
-			numbers[j] = temp;
+			double tmp = a[i];
+			a[i] = a[j];
+			a[j] = tmp;
 		}
-		numbers[lo] = numbers[j];
-		numbers[j] = pivot;
+		a[low] = a[j];
+		a[j] = pivot;
 		return j;
 	}
 
@@ -107,14 +113,14 @@ class SortComparison {
 	 */
 
 	static double[] mergeSortIterative(double a[]) {
-		int length = a.length;
-		double[] aux = new double[length];
-		for(int index = 1; index <= length - 1; index *= 2)
+		int aLength = a.length;
+		double[] aux = new double[aLength];
+		for(int index = 1; index <= aLength - 1; index *= 2)
 		{
-			for(int low = 0; low < length - 1; low += (2 * index))
+			for(int low = 0; low < aLength - 1; low += (2 * index))
 			{
 				int mid = low + index - 1;
-				int high = Math.min(low + 2 * index - 1, length - 1);
+				int high = Math.min(low + 2 * index - 1, aLength - 1);
 				myMergeIterative(a, aux, low, mid, high);
 			}
 		}
@@ -124,18 +130,18 @@ class SortComparison {
 
 	}// end mergesortIterative
 
-	private static void myMergeIterative(double a[], double[] aux, int lo, int mid, int hi) {
-		for(int k = lo; k <= hi; k++)
+	private static void myMergeIterative(double a[], double[] aux, int low, int mid, int high) {
+		for(int k = low; k <= high; k++)
 		{
 			aux[k] = a[k];
 		}
 		
-		int i = lo;
+		int i = low;
 		int j = mid + 1;
-		for (int k = lo; k <= hi; k++) {
+		for (int k = low; k <= high; k++) {
 			if (i > mid) {
 				a[k] = aux[j++];
-			} else if (j > hi) {
+			} else if (j > high) {
 				a[k] = aux[i++];
 			} else if ((aux[j] < aux[i])) {
 				a[k] = aux[j++];
@@ -155,13 +161,13 @@ class SortComparison {
 	 *         order.
 	 */
 	static double[] mergeSortRecursive(double a[]) {
-		int length = a.length;
-		double[] aux = new double[length];
-		for(int index = 1; index <= length - 1; index *= 2)
+		int aLength = a.length;
+		double[] aux = new double[aLength];
+		for(int index = 1; index <= aLength - 1; index *= 2)
 		{
-			for(int low = 0; low < length - 1; low += (2 * index))
+			for(int low = 0; low < aLength - 1; low += (2 * index))
 			{
-				int high = Math.min(low + 2 * index - 1, length - 1);
+				int high = Math.min(low + 2 * index - 1, aLength - 1);
 				myMergeSortRecursive(a, aux, low, high);
 			}
 		}
@@ -171,14 +177,14 @@ class SortComparison {
 
 	}// end mergeSortRecursive
 
-	private static void myMergeSortRecursive(double a[], double aux[], int lo, int hi) {
-		if (hi <= lo) {
+	private static void myMergeSortRecursive(double a[], double aux[], int low, int high) {
+		if (high <= low) {
 			return;
 		}
-		int mid = lo + (hi - lo) / 2;
-		myMergeSortRecursive(aux, a, lo, mid);
-		myMergeSortRecursive(aux, a, mid + 1, hi);
-		myMergeIterative(a, aux, lo, mid, hi);
+		int mid = low + (high - low) / 2;
+		myMergeSortRecursive(aux, a, low, mid);
+		myMergeSortRecursive(aux, a, mid + 1, high);
+		myMergeIterative(a, aux, low, mid, high);
 	}
 
 	/**
@@ -191,19 +197,15 @@ class SortComparison {
 	 *
 	 */
 	static double[] selectionSort(double a[]) {
-		double n = a.length;
-		// One by one move boundary of unsorted subarray
-		for (int i = 0; i < n - 1; i++) {
-			// Find the minimum element in unsorted array
-			int min_idx = i;
-			for (int j = i + 1; j < n; j++)
-				if (a[j] < a[min_idx])
-					min_idx = j;
-			// Swap the found minimum element with the first
-			// element
-			double temp = a[min_idx];
-			a[min_idx] = a[i];
-			a[i] = temp;
+		double aLength = a.length;
+		for (int i = 0; i < aLength - 1; i++) {
+			int index = i;
+			for (int j = i + 1; j < aLength; j++)
+				if (a[j] < a[index])
+					index = j;
+			double tmp = a[index];
+			a[index] = a[i];
+			a[i] = tmp;
 		}
 		return a;
 
@@ -216,11 +218,11 @@ class SortComparison {
 	}
 	
 	public static String toString(double a[]) {
-		String result = "";
+		String myString = "";
 		for (int i = 0; i < a.length; i++) {
-			result += a[i] + ", ";
+			myString += a[i] + ", ";
 		}
-		return result;
+		return myString;
 
 	}
 
