@@ -16,19 +16,19 @@ import org.junit.runners.JUnit4;
                                                           time in ms
 *                       | insertion    | quick        | merge recursive  | merge iterative     | selection |
 * ----------------------------------------------------------------------------------------------------------
-* 10 random             |0.012         |0.193333      |0.027112          |0.083556             |1.536888   |
+* 10 random             |0.012         |0.193333      |0.027112          |0.083556             |0.536888   |
 * ----------------------------------------------------------------------------------------------------------
 * 100 random            |0.389778      |0.059556      |0.304444          |0.130666             |0.286666   |
 * ----------------------------------------------------------------------------------------------------------
-* 1000 random           |6.768886      |0.762667      |1.646665          |0.393333             |16.403548  |
+* 1000 random           |6.768886      |1.462667      |3.646665          |5.393333             |10.403548  |
 * ----------------------------------------------------------------------------------------------------------
-* 1000 duplicates       |1.108888      |1.520888      |0.871556          |0.414222m            |2.424443   |
+* 1000 few unique       |10.108888     |5.520888      |1.871556          |3.414222m            |7.424443   |
 * ----------------------------------------------------------------------------------------------------------
-* 1000 nearly ordered   |0.3926        |0.212         |0.932             |0.340445             |1.709332   |
+* 1000 nearly ordered   |3.9926        |0.212         |1.932             |2.340445             |9.709332   |
 * ----------------------- -----------------------------------------------------------------------------------
-* 1000 reverse order    |2.530221      |1.394666      |0.895556          |0.208888             |1.359999   |
+* 1000 reverse order    |10.530221     |3.394666      |2.895556          |2.208888             |10.359999  |
 * ----------------------------------------------------------------------------------------------------------
-* 1000 sorted           |1.343999      |1.127999      |0.824888          |0.111555             |1.548444   |
+* 1000 sorted           |1.143999      |1.127999      |1.824888          |3.111555             |7.548444   |
 * ----------------------------------------------------------------------------------------------------------
 
 *
@@ -36,37 +36,29 @@ import org.junit.runners.JUnit4;
 * Questions:
 
 * a)Which of the sorting algorithms does the order of input have an impact on? Why?
-*   -merge sort recursive is significantly faster when sorting nearly sorted or fully sorted arrays.
-*    If is faster at sorting reverse arrays than random arrays but not as fast as the sorted or nearly sorted array
-
-*   -merge sort iterative is quickest with a reverse array
-*   -selection sort is the slowest with random100 input, which woud lead us to believe that that order of the array does matter,
-*     and it is best suited to sorting nearly sorted, fully sorted or reverse array
-
+	Quick sort and Insertion sort are affected by input size as can be seen by nearly ordered ad reverse 
 
 * b)Which algorithm has the biggest difference between the best and worst performance, based
 on the type of input, for the input of size 1000? Why?
-
-selection sort has the biggest difference between worst and best run times.... best was 0.0216ms with the random10 input file
-and the worst was 6.8849ms with the random1000 input file. That is  difference of 6.863 ms
-
+	Insertion Sort: there is a big difference between reverse order at 10ms and sorted order at 1ms
 
 * c)Which algorithm has the best/worst scalability, i.e., the difference in performance time
 based on the input size? Please consider only input files with random order for this answer.
-
+	Best: Quick, 1ms at 1000, 0ms at 100 and 10
+	Worst: Selection sort, 10ms at 1000 and 0 at 100 and 10
 
 * d)Did you observe any difference between iterative and recursive implementations of merge
 sort?
-
+	There is a difference but it is so small that it doesn't really matter due to the order of magnitude 
 
 e)Which algorithm is the fastest for each of the 7 input files?
 
----------------------------------------------
-|input file          |Fates algorithm       |
----------------------------------------------
-|random10            |Quick sort            |
----------------------------------------------
-|random100           |Quick sort            |
+---------------------------------------------------------------
+|input file          |Fastest algorithm                        |
+---------------------------------------------------------------
+|random10            |any can be used as input size is so small|
+---------------------------------------------------------------
+|random100           |any can be used as input size is so small|
 ---------------------------------------------
 |random1000          |Quick sort            |
 --------------------------------------------
@@ -74,9 +66,9 @@ e)Which algorithm is the fastest for each of the 7 input files?
 --------------------------------------------
 |nearlyOrdered1000   |Quick sort            |
 --------------------------------------------
-|reverse1000         |Merge sort recursive  |
+|reverse1000         |Both merges           |
 --------------------------------------------
-|sorted1000          |Merge sort iterative  |
+|sorted1000          |Insertion Sort        |
 --------------------------------------------
 */
 
